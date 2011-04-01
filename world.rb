@@ -21,10 +21,10 @@ class World
     field.split("\n").each_with_index do |arr, y|
       arr.split(',').each_with_index do |s, x|
         @depth.times do |z|
-          type = :nothing
           h = s.to_i
+          type = :nothing
           type = :ground if z <= h
-          type = :sea if h == 0
+          type = :sea if s == 's'
           self[x,y,z] = MapBase.new(type)
         end
       end
