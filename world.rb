@@ -17,9 +17,19 @@ class World
       field = open("#{map_name}/#{z}.map").read
       field.split("\n").each_with_index do |arr, y|
         arr.split(',').each_with_index do |s, x|
-          self[x,y,z] = [:sea, :ground, :nothing][s.to_i]
+          self[x,y,z] = [:nothing, :sea, :ground][s.to_i]
         end
       end
     end
+  end
+  def show_slice(n)
+    s = ''
+    @height.times do |y|
+      @width.times do |x|
+        s << self[x,y,n].to_s
+      end
+      s << "\n"
+    end
+    s
   end
 end
