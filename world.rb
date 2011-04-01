@@ -14,12 +14,15 @@ class World
     @chips[x][y][z] = v
   end
   def load(map_name)
-    files = Dir::entries(map_name).find_all{|s| /\.map$/ =~ s}
-    @depth.times do |z|
-      field = open("#{map_name}/#{z}.map").read
-      field.split("\n").each_with_index do |arr, y|
-        arr.split(',').each_with_index do |s, x|
-          self[x,y,z] = MapBase.new([:nothing, :sea, :ground][s.to_i])
+    field = open(map_name).read
+    field.split("\n").each_with_index do |arr, y|
+      arr.split(',').each_with_index do |s, x|
+        @depth.times do |z|
+          type = :nothing
+          h = s.to_i
+          type = :ground if z <= h
+          type = :sea if h == 0
+          self[x,y,z] = MapBase.new(type)
         end
       end
     end
