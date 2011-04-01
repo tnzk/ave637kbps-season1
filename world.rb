@@ -7,12 +7,15 @@ class World
     @depth  = z
     @chips = Array.new(x){ Array.new(y) { Array.new(z) }}
   end
+
   def [](x,y,z)
     @chips[x][y][z]
   end
+
   def []=(x,y,z,v)
     @chips[x][y][z] = v
   end
+
   def load(map_name)
     field = open(map_name).read
     field.split("\n").each_with_index do |arr, y|
@@ -27,12 +30,11 @@ class World
       end
     end
   end
+
   def show_slice(n)
     s = ''
     @height.times do |y|
-      @width.times do |x|
-        s << self[x,y,n].to_s
-      end
+      @width.times { |x| s << self[x,y,n].to_s }
       s << "\n"
     end
     s
