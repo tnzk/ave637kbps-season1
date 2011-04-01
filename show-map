@@ -13,5 +13,5 @@ puts "Map name: #{map_name}"
 puts "   Depth: #{depth}"
 
 w = World.new(10,10,10)
-w.load('map001')
+w.load(map_name)
 puts w.show_slice(depth)
