@@ -1,3 +1,5 @@
+$: << ENV['PWD']
+require 'map_base'
 class World
   def initialize( x = 10, y = 10, z = 10)
     @width  = x
@@ -17,7 +19,7 @@ class World
       field = open("#{map_name}/#{z}.map").read
       field.split("\n").each_with_index do |arr, y|
         arr.split(',').each_with_index do |s, x|
-          self[x,y,z] = [:nothing, :sea, :ground][s.to_i]
+          self[x,y,z] = MapBase.new([:nothing, :sea, :ground][s.to_i])
         end
       end
     end
