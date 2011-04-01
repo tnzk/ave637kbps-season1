@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 $: << ENV['PWD']
-require 'world'
-require 'map_base'
+require 'hakorb'
 
 abort 'Specify a map name like this: ./show-map map001' if ARGV.size == 0
 

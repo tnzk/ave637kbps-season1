@@ -1,5 +1,3 @@
-$: << ENV['PWD']
-require 'map_base'
 class World
   def initialize( x = 10, y = 10, z = 10)
     @width  = x

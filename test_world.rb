@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 $: << ENV['PWD']
-require 'world'
+require 'hakorb'
 
 w = World.new(10,10,10)
 w.load('map001.txt')

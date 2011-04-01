@@ -1,0 +1,2 @@
+class Building < MapBase
+end
