@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+$: << ENV['PWD']
+require 'world'
+require 'map_base'
+
 abort 'Specify a map name like this: ./show-map map001' if ARGV.size == 0
 
 map_name = ARGV[0]
@@ -7,3 +11,4 @@ depth    = ARGV[1].to_i
 
 puts "Map name: #{map_name}"
 puts "Depth: #{depth}"
+
