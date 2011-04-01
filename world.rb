@@ -1,5 +1,8 @@
 class World
   def initialize( x = 10, y = 10, z = 10)
+    @width  = x
+    @height = y
+    @depth  = z
     @chips = Array.new(x){ Array.new(y) { Array.new(z) }}
   end
   def [](x,y,z)
@@ -7,5 +10,16 @@ class World
   end
   def []=(x,y,z,v)
     @chips[x][y][z] = v
+  end
+  def load(map_name)
+    files = Dir::entries(map_name).find_all{|s| /\.map$/ =~ s}
+    @depth.times do |z|
+      field = open("#{map_name}/#{z}.map").read
+      field.split("\n").each_with_index do |arr, y|
+        arr.split(',').each_with_index do |s, x|
+          self[x,y,z] = [:sea, :ground, :nothing][s.to_i]
+        end
+      end
+    end
   end
 end
