@@ -10,5 +10,8 @@ map_name = ARGV[0]
 depth    = ARGV[1].to_i
 
 puts "Map name: #{map_name}"
-puts "Depth: #{depth}"
+puts "   Depth: #{depth}"
 
+w = World.new(10,10,10)
+w.load('map001')
+puts w.show_slice(depth)
