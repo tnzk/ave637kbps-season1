@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+$: << ENV['PWD']
+require 'hakorb'
+
+abort 'Specify a map name like this: ./show-map map001' if ARGV.size == 0
+
+require 'sdl'
+
+SDL.init( SDL::INIT_VIDEO ) 
+screen = SDL.setVideoMode( 640, 480, 16, SDL::SWSURFACE ) 
+image = SDL::Surface.load( 'resources/tnzk.bmp' )
+image.setColorKey( SDL::SRCCOLORKEY, image.getPixel(0,0) ) 
+image = image.displayFormat 
+
+image_x = 20
+image_y = 20
+
+loop do
+  while event = SDL::Event2.poll 
+    case event 
+    when SDL::Event2::Quit 
+      exit 
+    end
+  end
+
+  SDL::Key.scan
+  image_x -= 1 if SDL::Key.press?( SDL::Key::LEFT )
+  image_x += 1 if SDL::Key.press?( SDL::Key::RIGHT )
+  image_y -= 1 if SDL::Key.press?( SDL::Key::UP )
+  image_y += 1 if SDL::Key.press?( SDL::Key::DOWN )
+
+  screen.fillRect( 0, 0, 640, 480, [ 0, 0, 0 ] )
+  screen.put( image, image_x, image_y )
+  screen.updateRect( 0, 0, 0, 0 )
+end
