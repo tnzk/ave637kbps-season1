@@ -22,7 +22,7 @@ chips = [ SDL::Surface.loadBMP( 'resources/g001.bmp' ),
 
 w = World.new(10,10,10)
 w.load(map_name)
-
+SDL::Key.enable_key_repeat( 2000, 1)
 z = 0
 loop do
   while event = SDL::Event2.poll 
