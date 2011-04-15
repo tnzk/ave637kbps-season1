@@ -6,11 +6,22 @@ require 'sdl'
 
 abort 'Specify a map name like this: ./sim map001.txt' if ARGV.size == 0
 
+map_name = ARGV[0]
+
 SDL.init( SDL::INIT_VIDEO ) 
 screen = SDL.setVideoMode( 640, 480, 16, SDL::SWSURFACE ) 
+
 image = SDL::Surface.loadBMP( 'resources/tnzk.bmp' )
-image.setColorKey( SDL::SRCCOLORKEY, image.getPixel(0,0) ) 
-image = image.displayFormat 
+#image.setColorKey( SDL::SRCCOLORKEY, image.getPixel(0,0) ) 
+#image = image.displayFormat 
+
+chips = [ SDL::Surface.loadBMP( 'resources/g001.bmp' ),
+          SDL::Surface.loadBMP( 'resources/g002.bmp' ),
+          SDL::Surface.loadBMP( 'resources/g003.bmp' ),
+]
+
+w = World.new(10,10,10)
+w.load(map_name)
 
 loop do
   while event = SDL::Event2.poll 
@@ -21,10 +32,14 @@ loop do
   end
 
   screen.fillRect( 0, 0, 640, 480, [ 0, 0, 0 ] )
+  z = 0
   SDL::Key.scan
   12.times do |y|
     12.times do |x|
-      screen.put( image, x * 40, y * 40 )
+      if w[x,y,z]
+        img = chips[w[x,y,z].chip]
+        screen.put( img, x * 40, y * 40 )
+      end
     end
   end
   screen.updateRect( 0, 0, 0, 0 )
