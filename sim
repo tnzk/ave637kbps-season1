@@ -9,7 +9,7 @@ require 'sdl'
 
 SDL.init( SDL::INIT_VIDEO ) 
 screen = SDL.setVideoMode( 640, 480, 16, SDL::SWSURFACE ) 
-image = SDL::Surface.load( 'resources/tnzk.bmp' )
+image = SDL::Surface.load( 'resources/tnzk.png' )
 image.setColorKey( SDL::SRCCOLORKEY, image.getPixel(0,0) ) 
 image = image.displayFormat 
 
