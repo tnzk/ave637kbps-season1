@@ -8,6 +8,13 @@ abort 'Specify a map name like this: ./sim map001.txt' if ARGV.size == 0
 
 map_name = ARGV[0]
 
+key_server = 0
+old_key_server = 0
+UP    = 0x0001
+RIGHT = 0x0002
+DOWN  = 0x0004
+LEFT  = 0x0008
+
 SDL.init( SDL::INIT_VIDEO ) 
 screen = SDL.setVideoMode( 640, 480, 16, SDL::SWSURFACE ) 
 
@@ -17,12 +24,11 @@ image = SDL::Surface.loadBMP( 'resources/tnzk.bmp' )
 
 chips = [ SDL::Surface.loadBMP( 'resources/g001.bmp' ),
           SDL::Surface.loadBMP( 'resources/g002.bmp' ),
-          SDL::Surface.loadBMP( 'resources/g003.bmp' ),
-]
+          SDL::Surface.loadBMP( 'resources/g003.bmp' )]
 
 w = World.new(10,10,10)
 w.load(map_name)
-SDL::Key.enable_key_repeat( 2000, 1)
+
 z = 0
 loop do
   while event = SDL::Event2.poll 
@@ -34,8 +40,15 @@ loop do
 
   screen.fillRect( 0, 0, 640, 480, [ 0, 0, 0 ] )
   SDL::Key.scan
-  z -= 1 if SDL::Key.press?( SDL::Key::UP )
-  z += 1 if SDL::Key.press?( SDL::Key::DOWN )
+  key_server |=  UP       if SDL::Key.press?(SDL::Key::UP)
+  key_server &= ~UP   unless SDL::Key.press?(SDL::Key::UP)
+  key_server |=  DOWN     if SDL::Key.press?(SDL::Key::DOWN)
+  key_server &= ~DOWN unless SDL::Key.press?(SDL::Key::DOWN)
+
+  z += 1 if (key_server & UP)   != 0 && (old_key_server & UP)   == 0
+  z -= 1 if (key_server & DOWN) != 0 && (old_key_server & DOWN) == 0
+  z = 0 if z < 0
+  z = w.depth - 1if z >= w.depth
 
   12.times do |y|
     12.times do |x|
@@ -46,5 +59,6 @@ loop do
     end
   end
   screen.updateRect( 0, 0, 0, 0 )
+  old_key_server = key_server
 
 end

@@ -1,4 +1,5 @@
 class World
+  attr_reader :width, :height, :depth
   def initialize( x = 10, y = 10, z = 10)
     @width  = x
     @height = y
