@@ -23,6 +23,7 @@ chips = [ SDL::Surface.loadBMP( 'resources/g001.bmp' ),
 w = World.new(10,10,10)
 w.load(map_name)
 
+z = 0
 loop do
   while event = SDL::Event2.poll 
     case event 
@@ -32,8 +33,10 @@ loop do
   end
 
   screen.fillRect( 0, 0, 640, 480, [ 0, 0, 0 ] )
-  z = 0
   SDL::Key.scan
+  z -= 1 if SDL::Key.press?( SDL::Key::UP )
+  z += 1 if SDL::Key.press?( SDL::Key::DOWN )
+
   12.times do |y|
     12.times do |x|
       if w[x,y,z]
@@ -44,6 +47,4 @@ loop do
   end
   screen.updateRect( 0, 0, 0, 0 )
 
-  # image_y -= 1 if SDL::Key.press?( SDL::Key::UP )
-  # image_y += 1 if SDL::Key.press?( SDL::Key::DOWN )
 end
