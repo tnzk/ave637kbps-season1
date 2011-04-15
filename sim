@@ -2,19 +2,15 @@
 
 $: << ENV['PWD']
 require 'hakorb'
-
-abort 'Specify a map name like this: ./show-map map001' if ARGV.size == 0
-
 require 'sdl'
+
+abort 'Specify a map name like this: ./sim map001.txt' if ARGV.size == 0
 
 SDL.init( SDL::INIT_VIDEO ) 
 screen = SDL.setVideoMode( 640, 480, 16, SDL::SWSURFACE ) 
 image = SDL::Surface.loadBMP( 'resources/tnzk.bmp' )
 image.setColorKey( SDL::SRCCOLORKEY, image.getPixel(0,0) ) 
 image = image.displayFormat 
-
-image_x = 20
-image_y = 20
 
 loop do
   while event = SDL::Event2.poll 
@@ -24,13 +20,15 @@ loop do
     end
   end
 
-  SDL::Key.scan
-  image_x -= 1 if SDL::Key.press?( SDL::Key::LEFT )
-  image_x += 1 if SDL::Key.press?( SDL::Key::RIGHT )
-  image_y -= 1 if SDL::Key.press?( SDL::Key::UP )
-  image_y += 1 if SDL::Key.press?( SDL::Key::DOWN )
-
   screen.fillRect( 0, 0, 640, 480, [ 0, 0, 0 ] )
-  screen.put( image, image_x, image_y )
+  SDL::Key.scan
+  12.times do |y|
+    12.times do |x|
+      screen.put( image, x * 40, y * 40 )
+    end
+  end
   screen.updateRect( 0, 0, 0, 0 )
+
+  # image_y -= 1 if SDL::Key.press?( SDL::Key::UP )
+  # image_y += 1 if SDL::Key.press?( SDL::Key::DOWN )
 end
