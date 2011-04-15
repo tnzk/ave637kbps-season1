@@ -7,11 +7,19 @@ class World
   end
 
   def [](x,y,z)
-    @chips[x][y][z]
+    if x >= @width or y >= @height or z >= @depth
+      nil
+    else
+      @chips[x][y][z]
+    end
   end
 
   def []=(x,y,z,v)
-    @chips[x][y][z] = v
+    if x >= @width or y >= @height or z >= @depth
+      nil
+    else
+      @chips[x][y][z] = v
+    end
   end
 
   def load(map_name)
