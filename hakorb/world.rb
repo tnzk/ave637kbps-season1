@@ -1,6 +1,7 @@
 class World
-  attr_reader :width, :height, :depth
+  attr_reader :width, :height, :depth, :name
   def initialize( x = 10, y = 10, z = 10)
+    @name = 'default'
     @width  = x
     @height = y
     @depth  = z
@@ -24,15 +25,18 @@ class World
   end
 
   def load(map_name)
-    field = open(map_name).read
-    field.split("\n").each_with_index do |arr, y|
-      arr.split(',').each_with_index do |s, x|
-        @depth.times do |z|
-          h = s.to_i
-          type = :nothing
-          type = :ground if z <= h
-          type = :sea if s == 's'
-          self[x,y,z] = MapBase.new(type)
+    open(map_name) do |f|
+      @name = f.gets.chomp
+      field = f.read
+      field.split("\n").each_with_index do |arr, y|
+        arr.split(',').each_with_index do |s, x|
+          @depth.times do |z|
+            h = s.to_i
+            type = :nothing
+            type = :ground if z <= h
+            type = :sea if s == 's'
+            self[x,y,z] = MapBase.new(type)
+          end
         end
       end
     end

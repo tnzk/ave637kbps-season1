@@ -21,11 +21,7 @@ LEFT  = 0x0008
 # Initialize screen
 SDL.init( SDL::INIT_VIDEO )
 SDL::TTF.init
-SDL::Screen.open(600, 600, 16, SDL::OPENGL)
 screen = SDL.setVideoMode( 640, 480, 16, SDL::SWSURFACE )
-GL.ClearColor( 0.0, 0.0, 0.2, 1.0)
-GL::Ortho( -2.0, 2.0, -2.0, 2.0, -2.0, 2.0)
-GL::MatrixMode( GL::MODELVIEW)
 
 # Load images
 chips = [ SDL::Surface.loadBMP( 'resources/g001.bmp' ),
@@ -36,7 +32,7 @@ image = SDL::Surface.loadBMP( 'resources/tnzk.bmp' )
 #image = image.displayFormat 
 
 # Load fonts
-font = SDL::TTF.open('Migu-1P-regular.ttf', 24)
+font = SDL::TTF.open('Migu-1P-regular.ttf', 16)
 
 w = World.new(10,10,10)
 w.load(map_name)
@@ -51,6 +47,7 @@ loop do
   end
 
   screen.fillRect( 0, 0, 640, 480, [ 0, 0, 0 ] )
+
   SDL::Key.scan
   key_server |=  UP       if SDL::Key.press?(SDL::Key::UP)
   key_server &= ~UP   unless SDL::Key.press?(SDL::Key::UP)
@@ -70,7 +67,8 @@ loop do
       end
     end
   end
-  font.draw_solid_utf8( screen, '街1', 10, 10, 255, 255, 255)
+  font.draw_solid_utf8( screen, w.name, 420, 10, 255, 255, 255)
+  font.draw_solid_utf8( screen, "階層: #{z + 1}", 420, 35, 255, 255, 255)
   screen.updateRect( 0, 0, 0, 0 )
   old_key_server = key_server
 
