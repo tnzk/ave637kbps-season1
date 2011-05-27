@@ -63,12 +63,12 @@ loop do
     12.times do |x|
       if w[x,y,z]
         img = chips[w[x,y,z].chip]
-        screen.put( img, x * 40, y * 40 )
+        screen.put( img, x * 40 + 30, y * 40 + 30)
       end
     end
   end
-  font.draw_solid_utf8( screen, w.name, 420, 10, 255, 255, 255)
-  font.draw_solid_utf8( screen, "階層: #{z + 1}", 420, 35, 255, 255, 255)
+  font.draw_shaded_utf8( screen, w.name, 450, 40, 255, 255, 255, 0, 0, 0)
+  font.draw_shaded_utf8( screen, "階層: #{z + 1}", 450, 65, 255, 255, 255, 0, 0, 0)
   screen.updateRect( 0, 0, 0, 0 )
   old_key_server = key_server
 
