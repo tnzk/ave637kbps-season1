@@ -63,7 +63,11 @@ loop do
     12.times do |x|
       if w[x,y,z]
         img = chips[w[x,y,z].chip]
-        screen.put( img, x * 40 + 30, y * 40 + 30)
+        screen.put( img, x * 41 + 30, y * 41 + 30)
+      end
+      if w.blts[x] && w.blts[x][y]
+        blt = w.blts[x][y]
+        screen.fill_rect( x * 41 + 35, y * 41 + 35, 30, 30, [ 0xff, 0x99, 0x00])
       end
     end
   end
